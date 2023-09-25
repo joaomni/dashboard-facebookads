@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Facebook Ads Dashboard</title>
+        <link rel="stylesheet" href="/css/style.css">
+    </head>
+    <body>
+        <h1>Selecione uma conta de anúncios</h1>
+        <form>
+            <select id="account" name="account">
+                {% for account in accounts %}
+                    <option value="{{ account.id }}">{{ account.name }}</option>
+                {% endfor %}
+            </select>
+        </form>
+        <h2>Campanhas da conta selecionada:</h2>
+        <select id="campaign">
+            {% if camps.length > 0 %}
+                <!-- Use um loop for para gerar as opções se 'campanhas' não estiver vazio -->
+                {% for camp in camps %}
+                    <option value="{{ camp.id }}">{{ camp.name }}</option>
+                {% endfor %}
+            {% else %}
+                <!-- Exiba uma mensagem se 'campanhas' estiver vazio -->
+                <option value="" disabled>Nenhuma campanha disponível {{ contaId }} {{ camps }} bbbb</option>
+            {% endif %}
+        </select>
+        <script>
+            const selectAccount = document.getElementById('account');
+            
+            selectAccount.addEventListener('change', async () => {
+                const contaId = selectAccount.value;
+
+                try {
+                    const response = await fetch(`/campanhas/${accountID}`);
+                    const camps = await response.json();
+                    
+                } catch (error) {
+                    console.error(error);
+                }
+            });
+        </script>
+        {# <script src="/utils/renderCampaigns.js"></script> #}
+    </body>
+</html>
